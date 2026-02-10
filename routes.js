@@ -6,7 +6,11 @@ const {
 const express = require("express"); //importing express
 const JWTMiddleware = require("./MiddleWares/JWTMiddleware");
 const multerConfig = require("./MiddleWares/multerMiddleware");
-const { addBook } = require("./Controllers/BookController");
+const {
+  addBook,
+  getAllBooks,
+  getLimitedBooks,
+} = require("./Controllers/BookController");
 const router = express.Router(); //calling router from express
 
 router.post("/registerUser", registerUser);
@@ -18,5 +22,7 @@ router.post(
   multerConfig.array("uploadedImages"),
   addBook,
 );
+router.get("/getAllBooks", JWTMiddleware, getAllBooks);
+router.get("/getLimitedBooks", getLimitedBooks);
 
 module.exports = router; //exportinging router
