@@ -55,7 +55,7 @@ const bookSchema = mongoose.Schema({
     required: true,
   },
   buyerMail: {
-    type: string,
+    type:String,
     default:''
   },
 });

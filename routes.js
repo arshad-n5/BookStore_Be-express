@@ -12,6 +12,11 @@ const router = express.Router(); //calling router from express
 router.post("/registerUser", registerUser);
 router.post("/loginUser", loginUser);
 router.post("/googleLogin", googleLogin);
-router.post('/addBook',JWTMiddleware,multerConfig.array('uploadedImages'),addBook)
+router.post(
+  "/addBook",
+  JWTMiddleware,
+  multerConfig.array("uploadedImages"),
+  addBook,
+);
 
 module.exports = router; //exportinging router

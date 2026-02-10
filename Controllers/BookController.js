@@ -35,22 +35,26 @@ exports.addBook = async (req, res) => {
       images
     ) {
       //proceed to api call
-      let newbook=new bookModel({title,
-      author,
-      noOfPage,
-      imgURl,
-      price,
-      discountedPrice,
-      abstract,
-      publisher,
-      language,
-      ISBN,
-      category,
-      uploadedImages:images})
-      await newbook.save()
+      let newbook = new bookModel({
+        sellerMail,
+        title,
 
-    }else{
-      res.status(400).json({message:"please fill the feilds..."})
+        author,
+        noOfPage,
+        imgURl,
+        price,
+        discountedPrice,
+        abstract,
+        publisher,
+        language,
+        ISBN,
+        category,
+        uploadedImages: images,
+      });
+      await newbook.save();
+      res.status(201).json(newbook);
+    } else {
+      res.status(400).json({ message: "please fill the feilds..." });
     }
   } catch (error) {
     console.log(error);
