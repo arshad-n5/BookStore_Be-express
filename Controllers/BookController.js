@@ -63,7 +63,14 @@ exports.addBook = async (req, res) => {
 
 exports.getAllBooks = async (req, res) => {
   try {
-    let allBooks = await bookModel.find();
+    let searchKey = req.query.searchKey;
+    let pattern = {
+      title: {
+        $regex: searchKey,
+        $options: "i",
+      },
+    };
+    let allBooks = await bookModel.find(pattern);
     res.status(200).json(allBooks);
   } catch (error) {
     console.log(error);
