@@ -87,3 +87,14 @@ exports.getLimitedBooks = async (req, res) => {
     res.status(500).json({ message: "something went wrong in server" });
   }
 };
+
+exports.getSingleBook = async (req, res) => {
+  try {
+    let { id } = req.params;
+    let bookData = await bookModel.findById({ _id: id });
+    res.status(200).json(bookData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong in server" });
+  }
+};

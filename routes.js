@@ -10,6 +10,7 @@ const {
   addBook,
   getAllBooks,
   getLimitedBooks,
+  getSingleBook,
 } = require("./Controllers/BookController");
 const router = express.Router(); //calling router from express
 
@@ -24,5 +25,6 @@ router.post(
 );
 router.get("/getAllBooks", JWTMiddleware, getAllBooks);
 router.get("/getLimitedBooks", getLimitedBooks);
+router.get("/:id/getSingleBook", JWTMiddleware, getSingleBook);
 
 module.exports = router; //exportinging router
