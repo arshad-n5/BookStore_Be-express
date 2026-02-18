@@ -7,6 +7,7 @@ require("./dbConfig"); //importing the database config file to the server file
 const server = new express();
 server.use(cors());
 server.use(express.json());
+server.use('/Uploads',express.static('./Uploads'))
 server.use(router);
 
 const PORT = 3000 || process.env.PORT;
