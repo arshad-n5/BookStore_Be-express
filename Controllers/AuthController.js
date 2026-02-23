@@ -2,7 +2,6 @@ const { json } = require("express");
 const userModel = require("../Models/UserModel"); //importing usermodel from models
 const jwt = require("jsonwebtoken");
 
-
 //using named exports usig exports keyword
 exports.registerUser = async (req, res) => {
   try {
@@ -40,7 +39,15 @@ exports.loginUser = async (req, res) => {
           userType: existingUser.userType,
         };
         let token = jwt.sign(payload, process.env.jwtSecret); //sign is a jwt method to encode data the arguments are data and a secret key which is stored in env
-        res.status(200).json({ message: "succesfully logged in ", token });
+        if (existingUser.userType == "Admin") {
+          res
+            .status(200)
+            .json({ message: "succesfully logged in ", token, isAdmin: true });
+        } else {
+          res
+            .status(200)
+            .json({ message: "succesfully logged in ", token, isAdmin: false });
+        }
       } else {
         res.status(401).json({ message: "Invalid Password" });
       }
@@ -86,5 +93,45 @@ exports.googleLogin = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ messsage: "something went wrong in google log-in" });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    let allUsers = await userModel
+      .find({ userType: "user" })
+      .select("-password");
+    res.status(200).json(allUsers);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong in server" });
+  }
+};
+
+exports.getUserDetails = async (req, res) => {
+  try {
+    let email = req.userMail;
+    let userDetails = await userModel.findOne({ email: email });
+    res.status(200).json(userDetails);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong in the server" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    let { id } = req.params;
+    let { userName, password, bio } = req.body;
+    let proPic = req.file.filename;
+    let updatedUser = await userModel.findByIdAndUpdate(
+      { _id: id },
+      { userName, password, bio, proPic },
+      { new: true },
+    );
+    res.status(200).json(updatedUser)
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong in the server" });
   }
 };
