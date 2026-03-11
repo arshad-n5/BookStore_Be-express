@@ -14,6 +14,7 @@ const {
   getAllBooks,
   getLimitedBooks,
   getSingleBook,
+  buyBook,
 } = require("./Controllers/BookController");
 const JWTAdminMiddleware = require("./MiddleWares/JWTAdminMiddleware");
 const router = express.Router(); //calling router from express
@@ -26,7 +27,7 @@ router.get("/getUserDetails", JWTMiddleware, getUserDetails);
 router.get("/getAllUsers", JWTAdminMiddleware, getAllUsers);
 router.put(
   "/:id/updateUser",
- JWTMiddleware,
+  JWTMiddleware,
   multerConfig.single("proPic"),
   updateProfile,
 );
@@ -41,5 +42,7 @@ router.post(
 router.get("/getAllBooks", JWTMiddleware, getAllBooks);
 router.get("/getLimitedBooks", getLimitedBooks);
 router.get("/:id/getSingleBook", JWTMiddleware, getSingleBook);
+
+router.patch("/:id/makepayment", JWTMiddleware, buyBook);
 
 module.exports = router; //exportinging router
