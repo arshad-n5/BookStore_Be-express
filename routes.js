@@ -15,6 +15,7 @@ const {
   getLimitedBooks,
   getSingleBook,
   buyBook,
+  getUserBookSell,
 } = require("./Controllers/BookController");
 const JWTAdminMiddleware = require("./MiddleWares/JWTAdminMiddleware");
 const router = express.Router(); //calling router from express
@@ -44,5 +45,6 @@ router.get("/getLimitedBooks", getLimitedBooks);
 router.get("/:id/getSingleBook", JWTMiddleware, getSingleBook);
 
 router.patch("/:id/makepayment", JWTMiddleware, buyBook);
+router.get("/bookStatus",JWTMiddleware,getUserBookSell)
 
 module.exports = router; //exportinging router

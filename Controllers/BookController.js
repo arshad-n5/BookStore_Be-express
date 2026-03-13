@@ -118,7 +118,10 @@ exports.buyBook = async (req, res) => {
           product_data: {
             name: bookDetails.title,
             description: bookDetails.abstract,
-            images: bookDetails.image && bookDetails.image.length <= 2048 ? [bookDetails.image] : [],
+            images:
+              bookDetails.image && bookDetails.image.length <= 2048
+                ? [bookDetails.image]
+                : [],
             metadata: {
               title: bookDetails.title,
               sellerMail: bookDetails.sellerMail,
@@ -144,5 +147,16 @@ exports.buyBook = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "something went wrong in the server" });
+  }
+};
+
+exports.getUserBookSell = async (req, res) => {
+  try {
+    let usermail = req.userMail;
+    let sellerMailBook = await bookModel.find({ sellerMail: usermail });
+    res.status(200).json(sellerMailBook);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "someThing went wrong in the server" });
   }
 };
